@@ -11,3 +11,9 @@ search:
 
 outgoing:
   request_timeout: 5.0
+
+engines:
+  - name: vimeo
+    engine: vimeo
+    shortcut: vm
+    disabled: true
