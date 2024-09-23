@@ -10,6 +10,14 @@ export default function Home() {
   const { dispatch } = useContext(Context);
   const router = useRouter();
 
+// Handler to navigate to a search query
+  const handleSuggestedSearch = (query: string) => {
+    // Navigate immediately, dispatch can follow
+    router.push(`/search?threadId=${uuidv4()}&q=${encodeURIComponent(query)}`);
+    // Update the query state after navigation is triggered
+    dispatch!({ type: 'UPDATE_CURRENT_QUERY', payload: query });
+  };
+
   return (
     <main
       className="flex items-center justify-center min-h-screen px-4 sm:px-0"
@@ -18,19 +26,40 @@ export default function Home() {
       <div className="w-full sm:max-w-2xl flex flex-col items-center">
         <div>
           <pre className="font-display text-3xl font-regular mb-4 w-full whitespace-pre-wrap">
-            Discover Answers with Sensei
+            FAIR-sensei: LLM-based RDM-search
           </pre>
         </div>
+
+        {/* Search Input Area */}
         <SearchArea
           onSearch={(val) => {
-            // Conversation thread ID
-            // Here, we generate a new thread ID for each page refresh. If the thread ID doesn't exist, server will crate a new thread.
-            // Client could also choose to send in an existing thread ID to continue the conversation.
-            // Ideally, the thread ID should be generated on the server and sent to the client. But for now, this is not the case.
-            router.push(`/search?threadId=${uuidv4()}`);
+            // Navigate immediately, then update the query state
+            router.push(`/search?threadId=${uuidv4()}&q=${encodeURIComponent(val)}`);
             dispatch!({ type: 'UPDATE_CURRENT_QUERY', payload: val });
           }}
         />
+
+        {/* Suggested Search Queries */}
+        <div className="suggested-queries flex justify-center flex-wrap gap-4 mt-6">
+          <button
+            onClick={() => handleSuggestedSearch('Explain RDM')}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full shadow-sm hover:bg-gray-200 hover:shadow-md transition duration-300 ease-in-out"
+          >
+            Explain RDM
+          </button>
+          <button
+            onClick={() => handleSuggestedSearch('What is FAIR?')}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full shadow-sm hover:bg-gray-200 hover:shadow-md transition duration-300 ease-in-out"
+          >
+            What is FAIR?
+          </button>
+          <button
+            onClick={() => handleSuggestedSearch('Provide DMP templates')}
+            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-full shadow-sm hover:bg-gray-200 hover:shadow-md transition duration-300 ease-in-out"
+          >
+            Provide DMP templates
+          </button>
+        </div>
       </div>
     </main>
   );
