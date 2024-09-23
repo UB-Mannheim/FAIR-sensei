@@ -9,8 +9,8 @@ import { MainLayout } from '@/components/MainLayout';
 
 const inter = Inter({ subsets: ['latin'] });
 
-const title = 'Sensei';
-const description = 'Knowledge discovery with Sensei AI';
+const title = 'FAIR-sensei';
+const description = 'LLM-based RDM-search';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://heysensei.app/'),
@@ -45,7 +45,7 @@ export default function RootLayout({
         <Providers>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="light"
             disableTransitionOnChange
           >
             <div className="h-screen">
