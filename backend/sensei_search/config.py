@@ -7,6 +7,7 @@ load_envs()
 SEARXNG_URL = os.environ["SEARXNG_URL"]
 REDIS_HOST = os.environ["REDIS_HOST"]
 BING_API_KEY = os.environ["BING_API_KEY"]
+GLOBAL_CONTEXT = os.environ["GLOBAL_CONTEXT"]
 
 # Small model
 SM_MODEL_URL = os.environ["SM_MODEL_URL"]

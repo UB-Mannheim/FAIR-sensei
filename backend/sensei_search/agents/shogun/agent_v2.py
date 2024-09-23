@@ -3,7 +3,6 @@ import json
 import re
 from datetime import datetime
 from typing import Any, List, Optional, Tuple
-
 from openai import AsyncOpenAI
 from openai.types.chat import ChatCompletionMessageParam, ChatCompletionMessageToolCall
 from openai.types.chat.chat_completion_message_tool_call import Function
@@ -24,6 +23,7 @@ from sensei_search.config import (
     SM_MODEL,
     SM_MODEL_API_KEY,
     SM_MODEL_URL,
+    GLOBAL_CONTEXT,
 )
 from sensei_search.logger import logger
 from sensei_search.models import MetaData
@@ -32,6 +32,11 @@ from sensei_search.tools.search import Input as SearchInput
 from sensei_search.tools.search import TopResults, get_search_tool
 from sensei_search.utils import create_slug
 
+
+if GLOBAL_CONTEXT==None:
+    GLOBAL_CONTEXT = ''
+else:
+    GLOBAL_CONTEXT = ' ' + GLOBAL_CONTEXT
 
 async def noop() -> None:
     return None
@@ -104,8 +109,7 @@ class ShogunAgent(BaseAgent):
         if not search_query:
             return None
 
-        search_input = SearchInput(query=search_query, categories=[Category.general])
-
+        search_input = SearchInput(query=search_query + GLOBAL_CONTEXT, categories=[Category.general])
         return (await get_search_tool().search(search_input), search_query)
 
     async def process_medium(self, query: Optional[str]) -> TopResults:
@@ -180,10 +184,13 @@ class ShogunAgent(BaseAgent):
                 stream=False,
             )
 
+            response_content = response.choices[0].message.content or ""
+            # Split by "?" and retain the "?" in each sentence without adding an extra one
             return [
-                re.sub(r"^\s*\d+\.\s*", "", item)
-                for item in (response.choices[0].message.content or "").split("\n")
-                if item.strip()
+                re.sub(r"^\s*\d+\.\s*", "", sentence)
+                for sentence in re.split(r'(?<=\?)', response_content)
+                if sentence.strip() and not any(phrase in sentence.lower() for phrase in
+                                                ["based on the chat history", "follow-up questions", "question"])
             ]
         except Exception as e:
             logger.exception(f"Error generating related questions: {e}")
