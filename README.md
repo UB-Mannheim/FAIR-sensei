@@ -1,21 +1,18 @@
-# Sensei Search
+# FAIR-Sensei
 
-Sensei Search is an AI-powered answer engine.
-
-## 🎥 Demo
-https://www.heysensei.app
+FAIR-Sensei an open-source Perplexity-like search for Research Data Management based on [sensei](https://github.com/jjleng/sensei).
 
 ## 📸 Screenshots
 
 
 ### Light Mode
 <div align="center">
-  <img src="./docs/lennon.png" alt="Screenshot - Lennon" max-width="600">
+  <img src="./docs/explain_RDM.png" alt="Explain RDM" max-width="600">
 </div>
 
 ### Dark Mode
 <div align="center">
-  <img src="./docs/programming.png" alt="Screenshot - Programming" max-width="600">
+  <img src="./docs/DMP_templates.png" alt="templates for DMP" max-width="600">
 </div>
 
 
