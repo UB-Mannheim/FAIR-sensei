@@ -40,9 +40,14 @@ You can run Sensei Search either locally on your machine or in the cloud.
 
 Follow these steps to run Sensei Search locally:
 
+0. Clone the repository:
+    ```bash
+    git clone https://github.com/UB-Mannheim/FAIR-sensei
+    ```
+
 1. Prepare the backend environment:
     ```bash
-    cd sensei_root_folder/backend/
+    cd FAIR-sensei/backend/
     mv .env.development.example .env.development
     ```
     Edit `.env.development` as needed. The example environment assumes you run models through Ollama. Make sure you have reasonably good GPUs to run the command-r/Qwen-2-72b-instruct/WizardLM-2 8x22B model.
